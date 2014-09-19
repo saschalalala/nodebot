@@ -120,15 +120,15 @@ function replaceText(from, to, messageLog, text) {
 }
 
 function queryFact(to, text) {
-  var key = "\"" + text.split(/[! >]/)[1] + "\"";
+  var key = text.split(/[! >]/)[1];
   var username = text.split(/\> /)[1];
   var userAdressed = 0;
   if (username != null) {
     userAdressed = 1;
   }
-  var query = 'SELECT fact FROM factoids INNER JOIN keys on factoids.id = keys.factoid_id WHERE keys.key LIKE' + key + ';';
+  var query = 'SELECT fact FROM factoids INNER JOIN keys on factoids.id = keys.factoid_id WHERE lower(keys.key) = lower(?);';
   if (db.open) {
-    db.each(query, function (err, value) {
+    db.each(query, key, function (err, value) {
       var answer = value.fact;
       if (userAdressed) {
         answer = username + ": " + answer;
