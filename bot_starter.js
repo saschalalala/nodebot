@@ -63,7 +63,6 @@ function updateDatabase() {
 }
 
 function stopDatabase() {
-  sashs
   db.close();
   console.log("Database stopped");
 }
