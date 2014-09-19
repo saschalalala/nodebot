@@ -4,7 +4,8 @@ var config = {
   server: 'irc.freenode.net',
   botName: 'botName',
   controlchannel: '#controlchannel',
-  admin_user: 'username'
+  admin_user: 'username',
+  floodProtection: true
 };
 
 messageLog = [];
@@ -147,6 +148,7 @@ function getPageTitle(to, httpLink) {
     if (!error) {
       var page = cheerio.load(html);
       var title = page('title').text();
+      title = title.replace(/(\r\n|\n|\r)/gm,'');
       if (title.length > 0) {
         messageLog.push(new Message(config.botName, 'Seitentitel: ' + title, to));
         bot.say(to, title);
